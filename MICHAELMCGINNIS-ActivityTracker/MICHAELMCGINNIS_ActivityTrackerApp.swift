@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+//watch out for what you did here... Not safe to edit!
 @main
 struct MICHAELMCGINNIS_ActivityTrackerApp: App {
     var body: some Scene {
