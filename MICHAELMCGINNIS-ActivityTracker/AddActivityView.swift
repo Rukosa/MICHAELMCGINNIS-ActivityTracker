@@ -11,17 +11,13 @@ struct AddActivityView: View {
     @Binding var activities: [Activity]
     @Environment (\.presentationMode) var presentationMode
     //add categories??
+    //add timer for tracking how long something should be done??
     @State private var activityName = ""
     @State private var timesOccured = 1
     @State private var activityDesc = "No description"
-    func checkNameDescEntered(){
-        if activityName.count == 0{
-            //activityname needs name
-        }
-        if activityDesc.count == 0{
-            //must enter a desc
-        }
-    }
+    
+    @State private var activityNameOnFailedSubmit = "..."
+    
     func saveJson(){
         let jsonEncoder = JSONEncoder()
         do{
@@ -34,6 +30,14 @@ struct AddActivityView: View {
     }
     func submitValues(){
         //@Binding lets me append!
+        if(activityName.count == 0){
+            activityNameOnFailedSubmit  = "Enter a name!"
+            return
+        }
+        if(activityDesc.count == 0){
+            activityDesc = "No description"
+            return
+        }
         activities.append(Activity.init(activityName: activityName, timesOccured: timesOccured, activityDesc: activityDesc))
         print(activities)
         saveJson()
@@ -46,7 +50,7 @@ struct AddActivityView: View {
             HStack{
                 Text("Activity Name:")
                     .padding(.leading)
-                TextField("...", text: $activityName)
+                TextField(activityNameOnFailedSubmit, text: $activityName)
             }
             Text("Description:")
             TextEditor(text: $activityDesc)

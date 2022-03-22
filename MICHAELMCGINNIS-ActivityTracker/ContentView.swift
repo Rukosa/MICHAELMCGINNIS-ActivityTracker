@@ -58,16 +58,24 @@ struct ContentView: View {
             List//($activities){$activity in
             {
                 ForEach($activities){$activity in
-                HStack{
-                    Stepper(value: $activity.timesOccured, in: 1...999999999){
-                        Text("\(activity.activityName) \(activity.timesOccured)")
-                            .onTapGesture {
-                                chosenAct = activity
-                                print(chosenAct)
-                                showingActivityDescription.toggle()
+                    HStack{
+                        Stepper{
+                            Text("\(activity.activityName) \(activity.timesOccured) times")
+                                .onTapGesture {
+                                    chosenAct = activity
+                                    print(chosenAct)
+                                    showingActivityDescription.toggle()
+                                }
+                        } onIncrement: {
+                            activity.timesOccured += 1
+                            saveJson()
+                        } onDecrement: {
+                            if(activity.timesOccured > 1){
+                                activity.timesOccured -= 1
+                                saveJson()
                             }
-                    }
-                    }
+                        }
+                        }
                 }.onDelete(perform: removeItems)
             }
             //Can't see this in the preview window :(
